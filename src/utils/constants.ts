@@ -4,7 +4,7 @@ export const config = {
 
 export const routes = {
   HOME_ROUTE: "/",
-  SHOP_ROUTE: "/shop"
+  SHOP_ROUTE: "/products"
 }
 
 export const navLinks = [

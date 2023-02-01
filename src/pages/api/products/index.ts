@@ -7,14 +7,14 @@ export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse
 ) {
-  const { method } = req
+  const { method, query } = req
 
   await connectDB()
 
   switch (method) {
     case "GET":
       try {
-        const products = await Product.find()
+        const products = await Product.find(query || {})
 
         res.status(200).json(products)
       } catch (error) {

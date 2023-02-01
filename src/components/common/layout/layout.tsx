@@ -1,6 +1,8 @@
 import { FC, ReactNode } from "react"
 import { Roboto } from "@next/font/google"
 
+import { Navbar, Sidebar } from "@/components/common"
+
 interface ILayout {
   children: ReactNode
 }
@@ -16,6 +18,8 @@ const s = {
 
 const Layout: FC<ILayout> = ({ children }) => (
   <div className={roboto.className}>
+    <Navbar />
+    <Sidebar />
     <main className={s.container}>{children}</main>
   </div>
 )

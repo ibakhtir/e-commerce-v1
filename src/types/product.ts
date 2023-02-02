@@ -1,13 +1,12 @@
-import { IMongoDBBody } from "./mongodb"
-
 export interface IProductImages {
   main: string
   collection?: string[]
 }
 
-export interface IProduct extends IMongoDBBody {
+export interface IProduct {
+  _id: string
   name: string
-  description?: string
+  description: string
   slug: string
   category: string
   gender: string
@@ -16,4 +15,7 @@ export interface IProduct extends IMongoDBBody {
   price: number
   salePrice?: number
   images: IProductImages
+  createdAt: Date
+  updatedAt: Date
+  __v: number
 }

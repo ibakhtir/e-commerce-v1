@@ -1,10 +1,12 @@
 import { configureStore } from "@reduxjs/toolkit"
 
 import uiReducer from "./ui"
+import filterReducer from "./filter"
 
 const store = configureStore({
   reducer: {
-    ui: uiReducer
+    ui: uiReducer,
+    filter: filterReducer
   }
 })
 

@@ -1,3 +1,4 @@
+export { default as Filter } from "./filter"
 export { default as Layout } from "./layout"
 export { default as Navbar } from "./navbar"
 export { default as Sidebar } from "./sidebar"

@@ -1,6 +1,9 @@
 import { IProduct, ICategory } from "@/types"
 import productService from "@/services/product.service"
 import categoryService from "@/services/category.service"
+import { useAppSelector } from "@/redux/hooks"
+import { getFilteredCategories } from "@/redux/filter"
+import { Filter } from "@/components/common"
 import { ProductCard } from "@/components/product"
 
 interface IProducts {
@@ -19,14 +22,25 @@ const s = {
 }
 
 const Products = ({ products, categories }: IProducts) => {
+  const filteredCategories = useAppSelector(getFilteredCategories)
+
+  let filteredProducts: IProduct[] = []
+
+  filteredProducts =
+    filteredCategories.length > 0
+      ? products.filter(({ category }) => filteredCategories.includes(category))
+      : products
+
   return (
     <div className={s.wrapper}>
       <div className={s.container}>
-        <div className={s.filtersContainer}>Filters</div>
+        <div className={s.filtersContainer}>
+          <Filter data={categories} type="category" />
+        </div>
 
         <div className={s.productsContainer}>
           <div className={s.productsList}>
-            {products.map((product) => (
+            {filteredProducts.map((product) => (
               <ProductCard key={product._id} product={product} />
             ))}
           </div>

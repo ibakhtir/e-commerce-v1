@@ -8,6 +8,7 @@ export interface IProduct {
   name: string
   description: string
   slug: string
+  brand: string
   category: string
   gender: string
   sizes?: string[]

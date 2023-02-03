@@ -1,10 +1,15 @@
 import { model, models, Schema } from "mongoose"
 
-const productSchema: Schema = new Schema(
+const productSchema = new Schema(
   {
     name: { type: String, required: true },
-    description: String,
+    description: { type: String, required: true },
     slug: { type: String, required: true },
+    brand: {
+      type: Schema.Types.ObjectId,
+      ref: "Brand",
+      required: true
+    },
     category: {
       type: Schema.Types.ObjectId,
       ref: "Category",

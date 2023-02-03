@@ -1,17 +1,19 @@
 import { FC, useState } from "react"
 
-import { ICategory, ICheckboxData } from "@/types"
-import { useAppDispatch, useAppSelector } from "@/redux/hooks"
+import { IFilterItem, ICheckboxData } from "@/types"
+import { useAppDispatch } from "@/redux/hooks"
 import {
+  selectBrand,
   selectCategory,
-  deselectCategory,
-  getFilteredCategories
+  deselectBrand,
+  deselectCategory
 } from "@/redux/filter"
 import { Checkbox } from "@/components/ui"
 
 interface IFilter {
-  data: ICategory[]
   type: string
+  data: IFilterItem[]
+  filters: string[]
 }
 
 interface IFilterISItem {
@@ -24,15 +26,14 @@ interface IFilterIS {
 }
 
 const s = {
+  container: `mb-8`,
   header: `font-medium capitalize mb-2`
 }
 
-const Filter: FC<IFilter> = ({ data, type }) => {
+const Filter: FC<IFilter> = ({ type, data, filters }) => {
   const initialState: IFilterIS = {}
 
   const [isChecked, setIsChecked] = useState(initialState)
-
-  const filteredCategories = useAppSelector(getFilteredCategories)
 
   const dispatch = useAppDispatch()
 
@@ -44,17 +45,24 @@ const Filter: FC<IFilter> = ({ data, type }) => {
       }
     }
 
-    if (filteredCategories.includes(_id)) {
+    if (filters.includes(_id)) {
       initialState[name].value = true
     }
   })
 
   const handleChange = ({ name, value }: ICheckboxData) => {
     switch (type) {
+      case "brand":
+        isChecked[name].value
+          ? dispatch(deselectBrand(isChecked[name]._id))
+          : dispatch(selectBrand(isChecked[name]._id))
+        break
+
       case "category":
         isChecked[name].value
           ? dispatch(deselectCategory(isChecked[name]._id))
           : dispatch(selectCategory(isChecked[name]._id))
+        break
 
       default:
         break
@@ -70,7 +78,7 @@ const Filter: FC<IFilter> = ({ data, type }) => {
   }
 
   return (
-    <div>
+    <div className={s.container}>
       <h5 className={s.header}>{type}</h5>
       <ul>
         {data.map(({ name }) => (

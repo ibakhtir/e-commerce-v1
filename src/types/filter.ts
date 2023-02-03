@@ -1,4 +1,4 @@
-export interface ICategory {
+export interface IFilterItem {
   _id: string
   name: string
   slug: string

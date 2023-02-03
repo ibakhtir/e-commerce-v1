@@ -11,7 +11,7 @@ const productService = {
     return data
   },
 
-  getBySlug: async (slug?: string) => {
+  getBySlug: async (slug: string) => {
     const { data } = await httpService.get(productsEndpoint, {
       params: { slug }
     })

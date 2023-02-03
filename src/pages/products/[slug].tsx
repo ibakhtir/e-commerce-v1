@@ -9,7 +9,7 @@ interface IProductPage {
   product: IProduct
 }
 
-const Product = ({ product }: IProductPage) => {
+export default function Product({ product }: IProductPage) {
   const router = useRouter()
 
   if (router.isFallback) {
@@ -44,5 +44,3 @@ export async function getStaticPaths() {
     fallback: true
   }
 }
-
-export default Product

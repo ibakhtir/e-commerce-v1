@@ -2,24 +2,24 @@ import { IFilterItem } from "@/types"
 
 import httpService from "./http.service"
 
-const categoriesEndpoint = "/categories"
+const brandsEndpoint = "/brands"
 
-const categoryService = {
+const brandService = {
   get: async () => {
-    const { data } = await httpService.get(categoriesEndpoint)
+    const { data } = await httpService.get(brandsEndpoint)
 
     return data
   },
 
   create: async (payload: IFilterItem) => {
-    const { data } = await httpService.post(categoriesEndpoint, payload)
+    const { data } = await httpService.post(brandsEndpoint, payload)
 
     return data
   },
 
   update: async (payload: IFilterItem) => {
     const { data } = await httpService.put(
-      categoriesEndpoint + payload._id,
+      brandsEndpoint + payload._id,
       payload
     )
 
@@ -27,10 +27,10 @@ const categoryService = {
   },
 
   remove: async (id: string) => {
-    const { data } = await httpService.delete(categoriesEndpoint + id)
+    const { data } = await httpService.delete(brandsEndpoint + id)
 
     return data
   }
 }
 
-export default categoryService
+export default brandService

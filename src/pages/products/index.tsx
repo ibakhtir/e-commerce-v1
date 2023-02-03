@@ -1,14 +1,16 @@
-import { IProduct, ICategory } from "@/types"
-import productService from "@/services/product.service"
+import { IProduct, IFilterItem } from "@/types"
+import brandService from "@/services/brand.service"
 import categoryService from "@/services/category.service"
+import productService from "@/services/product.service"
 import { useAppSelector } from "@/redux/hooks"
-import { getFilteredCategories } from "@/redux/filter"
+import { getCategories, getBrands } from "@/redux/filter"
 import { Filter } from "@/components/common"
 import { ProductCard } from "@/components/product"
 
 interface IProducts {
+  brands: IFilterItem[]
+  categories: IFilterItem[]
   products: IProduct[]
-  categories: ICategory[]
 }
 
 const s = {
@@ -21,21 +23,34 @@ const s = {
   productSkeleton: `w-60 h-60 bg-accent-2 rounded`
 }
 
-const Products = ({ products, categories }: IProducts) => {
-  const filteredCategories = useAppSelector(getFilteredCategories)
+export default function Products({ brands, categories, products }: IProducts) {
+  const filteredBrands = useAppSelector(getBrands)
+  const filteredCategories = useAppSelector(getCategories)
 
   let filteredProducts: IProduct[] = []
 
   filteredProducts =
-    filteredCategories.length > 0
-      ? products.filter(({ category }) => filteredCategories.includes(category))
+    filteredBrands.length > 0
+      ? products.filter(({ brand }) => filteredBrands.includes(brand))
       : products
+
+  filteredProducts =
+    filteredCategories.length > 0
+      ? filteredProducts.filter(({ category }) =>
+          filteredCategories.includes(category)
+        )
+      : filteredProducts
 
   return (
     <div className={s.wrapper}>
       <div className={s.container}>
         <div className={s.filtersContainer}>
-          <Filter data={categories} type="category" />
+          <Filter type="brand" data={brands} filters={filteredBrands} />
+          <Filter
+            type="category"
+            data={categories}
+            filters={filteredCategories}
+          />
         </div>
 
         <div className={s.productsContainer}>
@@ -53,16 +68,16 @@ const Products = ({ products, categories }: IProducts) => {
 }
 
 export async function getStaticProps() {
-  const products = await productService.get()
+  const brands = await brandService.get()
   const categories = await categoryService.get()
+  const products = await productService.get()
 
   return {
     props: {
-      products,
-      categories
+      brands,
+      categories,
+      products
     },
     revalidate: 30
   }
 }
-
-export default Products

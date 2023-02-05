@@ -6,3 +6,8 @@ export interface IFilterItem {
   updatedAt: Date
   __v: number
 }
+
+export interface ISortListItem {
+  value: string
+  label: string
+}

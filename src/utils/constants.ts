@@ -19,3 +19,18 @@ export const navLinks = [
     label: "Go to shop page"
   }
 ]
+
+export const sortList = [
+  {
+    value: "trending",
+    label: "Trending"
+  },
+  {
+    value: "price-asc",
+    label: "Price: Low to high"
+  },
+  {
+    value: "price-desc",
+    label: "Price: High to low"
+  }
+]

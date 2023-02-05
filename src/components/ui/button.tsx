@@ -10,7 +10,7 @@ interface IButton extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 const s = {
   basic: `inline-flex justify-center items-center font-semibold text-sm tracking-wide
-  uppercase leading-6 border-none focus:ring-0 transition ease-in-out duration-150`,
+  uppercase leading-6 focus:ring-0 transition ease-in-out duration-150`,
   default: `bg-black text-white w-full py-5 hover:opacity-75`,
   naked: `bg-transparent text-current hover:opacity-75`,
   disabled: `opacity-75 cursor-not-allowed`

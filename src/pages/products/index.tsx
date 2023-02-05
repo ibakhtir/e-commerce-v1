@@ -3,8 +3,9 @@ import brandService from "@/services/brand.service"
 import categoryService from "@/services/category.service"
 import productService from "@/services/product.service"
 import { useAppSelector } from "@/redux/hooks"
-import { getCategories, getBrands } from "@/redux/filter"
-import { Filter } from "@/components/common"
+import { getBrands, getCategories, getSort } from "@/redux/filter"
+import { sortBy } from "@/utils/helpers"
+import { Filter, Sort } from "@/components/common/filterGroup"
 import { ProductCard } from "@/components/product"
 
 interface IProducts {
@@ -14,18 +15,18 @@ interface IProducts {
 }
 
 const s = {
-  wrapper: `py-5`,
-  container: `grid grid-cols-1 lg:grid-cols-12 gap-4`,
-  filtersContainer: `col-span-8 lg:col-span-2 order-1 lg:order-none`,
-  sortContainer: `col-span-8 lg:col-span-2 order-2 lg:order-none`,
-  productsContainer: `col-span-8 order-3 lg:order-none`,
-  productsList: `grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6`,
-  productSkeleton: `w-60 h-60 bg-accent-2 rounded`
+  container: `grid grid-cols-1 lg:grid-cols-12 gap-4 py-5`,
+  title: `font-medium text-lg`,
+  filtersContainer: `hidden lg:block col-span-2`,
+  productsContainer: `flex flex-col lg:col-span-10 space-y-3`,
+  productsHeader: `flex justify-between`,
+  productsList: `grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6`
 }
 
 export default function Products({ brands, categories, products }: IProducts) {
   const filteredBrands = useAppSelector(getBrands)
   const filteredCategories = useAppSelector(getCategories)
+  const currentSort = useAppSelector(getSort)
 
   let filteredProducts: IProduct[] = []
 
@@ -41,27 +42,31 @@ export default function Products({ brands, categories, products }: IProducts) {
         )
       : filteredProducts
 
+  filteredProducts = sortBy(currentSort.value, filteredProducts)
+
   return (
-    <div className={s.wrapper}>
-      <div className={s.container}>
-        <div className={s.filtersContainer}>
-          <Filter type="brand" data={brands} filters={filteredBrands} />
-          <Filter
-            type="category"
-            data={categories}
-            filters={filteredCategories}
-          />
+    <div className={s.container}>
+      <aside className={s.filtersContainer}>
+        <h5 className={s.title}>Filters</h5>
+        <Filter type="brand" data={brands} filters={filteredBrands} />
+        <Filter
+          type="category"
+          data={categories}
+          filters={filteredCategories}
+        />
+      </aside>
+
+      <div className={s.productsContainer}>
+        <div className={s.productsHeader}>
+          <h5 className={s.title}>Products</h5>
+          <Sort />
         </div>
 
-        <div className={s.productsContainer}>
-          <div className={s.productsList}>
-            {filteredProducts.map((product) => (
-              <ProductCard key={product._id} product={product} />
-            ))}
-          </div>
+        <div className={s.productsList}>
+          {filteredProducts.map((product) => (
+            <ProductCard key={product._id} product={product} />
+          ))}
         </div>
-
-        <div className={s.sortContainer}>Sorting</div>
       </div>
     </div>
   )

@@ -26,7 +26,7 @@ interface IFilterIS {
 }
 
 const s = {
-  container: `mb-8`,
+  container: `mt-8`,
   header: `font-medium capitalize mb-2`
 }
 

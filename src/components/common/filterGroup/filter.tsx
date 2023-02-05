@@ -1,4 +1,4 @@
-import { FC, useState } from "react"
+import { FC, useEffect, useState } from "react"
 
 import { IFilterItem, ICheckboxData } from "@/types"
 import { useAppDispatch } from "@/redux/hooks"
@@ -14,6 +14,7 @@ interface IFilter {
   type: string
   data: IFilterItem[]
   filters: string[]
+  marginTop?: number
 }
 
 interface IFilterISItem {
@@ -26,29 +27,32 @@ interface IFilterIS {
 }
 
 const s = {
-  container: `mt-8`,
   header: `font-medium capitalize mb-2`
 }
 
-const Filter: FC<IFilter> = ({ type, data, filters }) => {
-  const initialState: IFilterIS = {}
-
-  const [isChecked, setIsChecked] = useState(initialState)
+const Filter: FC<IFilter> = ({ type, data, filters, marginTop }) => {
+  const [isChecked, setIsChecked] = useState<IFilterIS>({})
 
   const dispatch = useAppDispatch()
 
-  data.forEach(({ _id, name }) => {
-    if (!initialState[name]) {
-      initialState[name] = {
-        _id,
-        value: false
-      }
-    }
+  useEffect(() => {
+    const initialState: IFilterIS = {}
 
-    if (filters.includes(_id)) {
-      initialState[name].value = true
-    }
-  })
+    data.forEach(({ _id, name }) => {
+      if (!initialState[name]) {
+        initialState[name] = {
+          _id,
+          value: false
+        }
+      }
+
+      if (filters.includes(_id)) {
+        initialState[name].value = true
+      }
+    })
+
+    setIsChecked(initialState)
+  }, [data, filters])
 
   const handleChange = ({ name, value }: ICheckboxData) => {
     switch (type) {
@@ -78,14 +82,14 @@ const Filter: FC<IFilter> = ({ type, data, filters }) => {
   }
 
   return (
-    <div className={s.container}>
+    <div style={{ marginTop }}>
       <h5 className={s.header}>{type}</h5>
       <ul>
         {data.map(({ name }) => (
           <li key={name}>
             <Checkbox
               name={name}
-              isChecked={isChecked[name].value}
+              isChecked={isChecked[name]?.value}
               onCheck={handleChange}
             />
           </li>

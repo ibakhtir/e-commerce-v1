@@ -14,7 +14,7 @@ const s = {
   label: `text-sm leading-7 ml-2`
 }
 
-const Checkbox: FC<ICheckbox> = ({ name, isChecked, onCheck }) => {
+const Checkbox: FC<ICheckbox> = ({ name, isChecked = false, onCheck }) => {
   const handleChange = ({ target }: ITarget) => {
     onCheck({
       name: target.name,

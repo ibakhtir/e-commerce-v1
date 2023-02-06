@@ -12,14 +12,14 @@ interface IProducts {
 }
 
 const s = {
-  container: `grid grid-cols-1 lg:grid-cols-12 gap-4 pt-4 pb-8`,
+  container: `grid grid-cols-1 lg:grid-cols-12 gap-4 mt-3`,
   title: `font-medium text-lg`,
   filtersContainer: `hidden lg:block col-span-2`,
-  productsContainer: `flex flex-col lg:col-span-10 space-y-3`,
-  productsHeader: `flex justify-between`,
+  productsContainer: `flex flex-col lg:col-span-10`,
+  productsHeader: `flex justify-between h-10 lg:h-14`,
   filtersAndSort: `flex space-x-4`,
   mobileFilters: `block lg:hidden`,
-  productsList: `grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6`
+  productsList: `grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6`
 }
 
 export default function Products({ brands, categories, products }: IProducts) {

@@ -1,7 +1,7 @@
 import { FC, ReactNode } from "react"
 import { Roboto } from "@next/font/google"
 
-import { Navbar, Sidebar } from "@/components/common"
+import { Navbar, Sidebar, Footer } from "@/components/common"
 
 interface ILayout {
   children: ReactNode
@@ -21,6 +21,7 @@ const Layout: FC<ILayout> = ({ children }) => (
     <Navbar />
     <Sidebar />
     <main className={s.container}>{children}</main>
+    <Footer />
   </div>
 )
 
